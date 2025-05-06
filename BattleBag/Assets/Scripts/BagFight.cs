@@ -1,21 +1,36 @@
 using UnityEngine;
+using Items;
 
 namespace DragItem
 {
     public class BagFight : MonoBehaviour
     {
-        public Slot[] slots; // Массив слотов рюкзака
+        public GameItem[] items = new GameItem[9]; //Массив слотов рюкзака
 
-        // Метод для проверки, занят ли слот
-        public bool IsSlotOccupied(int index)
+
+        //Метод для установки слота как занятого
+        public void SetSlotOccupied(int index, GameItem item)
         {
-            return slots[index].IsOccupied();
+            items[index] = item;
+            ShowItems();
         }
 
-        // Метод для установки слота как занятого
-        public void SetSlotOccupied(int index, bool occupied)
+        //Метод для установки слота как занятого
+        public void DelSlotOccupied(int index)
         {
-            slots[index].SetOccupied(occupied);
+            items[index] = null;
+            //ShowItems();
+        }
+
+        private void ShowItems()
+        {
+            foreach (GameItem item in items)
+            {
+                if (item != null)
+                {
+                    Debug.Log(item.KeyItem + " " + item.itemName);
+                }
+            }
         }
     }
 }

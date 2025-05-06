@@ -1,11 +1,22 @@
 using UnityEngine;
+using UnityEngine.UI;
+using Items;
 
 namespace DragItem
 {
     public class Item : MonoBehaviour
     {
-        public string itemName;
-        public int itemID;
+        private string KeyName;
+        private int itemID;
+        public GameItem gameItem { get; set; }
+
+        public void GetInfoItem(string kName)
+        {
+            //itemID = iId;
+            KeyName = kName;
+            gameItem = ItemController.instance.GetGameItem(KeyName);
+            GetComponent<Image>().sprite = Resources.Load<Sprite>(KeyName);
+        }
 
         public void DisablePhysics()
         {
