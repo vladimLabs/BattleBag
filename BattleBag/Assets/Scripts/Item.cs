@@ -1,21 +1,31 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Items;
 
 namespace DragItem
 {
     public class Item : MonoBehaviour
     {
-        private string KeyName;
-        private int itemID;
+        public string KeyName;
+        public int Level { get; set; }
         public GameItem gameItem { get; set; }
 
-        public void GetInfoItem(string kName)
+        [SerializeField] private TextMeshProUGUI levelItem;
+
+        public void GetInfoItem(string kName, int level)
         {
-            //itemID = iId;
+            Level = level;
             KeyName = kName;
             gameItem = ItemController.instance.GetGameItem(KeyName);
             GetComponent<Image>().sprite = Resources.Load<Sprite>(KeyName);
+            levelItem.text = Level.ToString();
+        }
+
+        public void UpgradeLevel()
+        {
+            Level++;
+            levelItem.text = Level.ToString();
         }
 
         public void DisablePhysics()

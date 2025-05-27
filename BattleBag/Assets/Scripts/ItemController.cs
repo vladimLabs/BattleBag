@@ -31,17 +31,27 @@ namespace Items
         public void SummonItem(string nameItem)
         {
             GameObject item = Instantiate(prefabItem, pointSpawn.position, Quaternion.identity, canvas);
-            item.GetComponent<Item>().GetInfoItem(nameItem);
+            item.GetComponent<Item>().GetInfoItem(nameItem, 1);
         }
 
-        public void SlotOccupied(GameItem item, int index)
+        public void SlotOccupied(GameItem gameItem, Item item, int index)
         {
-            bagFight.SetSlotOccupied(index, item);
+            bagFight.SetSlotOccupied(index, gameItem, item);
         }
 
         public void SlotUnOccupied(int index)
         {
             bagFight.DelSlotOccupied(index);
+        }
+
+        public string GetItemName(int index)
+        {
+            return bagFight.GetItemName(index);
+        }
+
+        public void UpgradeItem(int index)
+        {
+            bagFight.UpgradeItem(index);
         }
     }   
 }

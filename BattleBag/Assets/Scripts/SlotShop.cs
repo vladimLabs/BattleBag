@@ -27,12 +27,11 @@ namespace Shop
 
         public void BuyItem()
         {
-            Debug.Log($"{_gameItem.itemName}: {_cost}");
             if (ShopController.instance.CheckCanBuy(_cost))
             {
                 ShopController.instance.BuyForCoin(_cost);
                 ItemController.instance.SummonItem(_gameItem.KeyItem);
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
             }
         }
     }

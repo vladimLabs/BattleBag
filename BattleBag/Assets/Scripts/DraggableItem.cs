@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Items;
 
 namespace DragItem
 {
@@ -19,7 +20,6 @@ namespace DragItem
         {
             if (currentSlot != null)
             {
-                //Debug.Log("забираем " + currentSlot.GetComponent<Slot>().name);
                 currentSlot.GetComponent<Slot>().DelItem();
             }
             //Отключаем физику
@@ -47,6 +47,14 @@ namespace DragItem
                     currentSlot.PlaceItem(item); // Помещаем предмет в слот
                     item.DisablePhysics();
 
+                }
+                else if (currentSlot.CanUpgradeItem())
+                {
+                    ItemController.instance.UpgradeItem(currentSlot.GetIndex());
+                    //item.UpgradeLevel();   //увеличиваем уровень у предмета в слоте
+                    //currentSlot.UpgradeItem();
+                    //item.DisablePhysics();
+                    Destroy(gameObject);
                 }
                 else
                 {
@@ -78,5 +86,11 @@ namespace DragItem
                 currentSlot = null; //Сбрасываем ссылку на слот
             }
         }
+
+        public string GetItemName()
+        {
+            return item.KeyName;
+        }
+
     }
 }

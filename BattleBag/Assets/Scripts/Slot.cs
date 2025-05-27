@@ -8,35 +8,60 @@ namespace DragItem
     {
         public Image slotImage;
         private bool occupied = false; //Состояние слота (занят ли)
+        private bool upgrade = false; //Состояние слота можно ли улучшить
         [SerializeField] private int index;
+
+        private Color freeSlot;
+        private Color choiceSlot;
+        private Color upSlot;
+
+        private void Start()
+        {
+            freeSlot = new Color(1,1,1,0);
+            choiceSlot = new Color(1,1,1,0.2f);
+            upSlot = new Color(0,1,0,0.2f);
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Item") && !occupied) //Если предмет над слотом
             {
-                ChangeColor(0.1f);
+                ChangeColor(choiceSlot);
+            }
+            else if (other.CompareTag("Item") && occupied && ItemController.instance.GetItemName(index) == other.GetComponent<DraggableItem>().GetItemName())
+            {
+                ChangeColor(upSlot);
+                upgrade = true;
             }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.CompareTag("Item") && !occupied) //Если предмет покинул слот
+            if (other.CompareTag("Item")) //Если предмет покинул слот
             {
-                ChangeColor(0);
+                ChangeColor(freeSlot);
             }
         }
 
-        public void ChangeColor(float parametr)
+        public void ChangeColor(Color col)
         {
             //Назначаем непрозрачность
-            Color color = slotImage.color;
-            color.a = parametr;
-            slotImage.color = color;
+            slotImage.color = col;
         }
 
         public bool CanPlaceItem()
         {
             return !occupied; //Проверяем, свободен ли слот
+        }
+
+        public bool CanUpgradeItem()
+        {
+            return upgrade;
+        }
+
+        public void UpgradeItem()
+        {
+            upgrade = false;
         }
 
         public void PlaceItem(Item item)
@@ -45,9 +70,9 @@ namespace DragItem
             {
                 item.transform.position = transform.position; // Перемещаем предмет в позицию слота
                 SetOccupied(true); //Устанавливаем слот как занятый
-                ChangeColor(0);
-                ItemController.instance.SlotOccupied(item.gameItem, index);
-                Debug.Log("Предмет помещен в слот: " + gameObject.name);
+                ChangeColor(freeSlot);
+                ItemController.instance.SlotOccupied(item.gameItem, item, index);
+                //Debug.Log("Предмет помещен в слот: " + gameObject.name);
             }
             else
             {
@@ -69,6 +94,11 @@ namespace DragItem
         public void SetOccupied(bool value)
         {
             occupied = value;
+        }
+
+        public int GetIndex()
+        {
+            return index;
         }
     }
 }
