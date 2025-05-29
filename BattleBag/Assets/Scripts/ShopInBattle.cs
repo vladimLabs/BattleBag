@@ -11,15 +11,17 @@ namespace Shop
 
         public void ChoiceLowestRarityItems(int count)
         {
-            List<Items.GameItem> allItems = ItemController.instance.GetListGameItem();
+            List<GameItem> allItems = ItemController.instance.GetListGameItem();
 
             //Получаем предметы по редкости Common
-            List<Items.GameItem> commonItems = allItems.Where(item => item.rarity == Rarity.Common).ToList();
+            List<GameItem> commonItems = allItems.Where(item => item.rarity == Rarity.Common).ToList();
 
             for (int i = 0; i < count; i++)
             {
-                Items.GameItem item = commonItems[i];
-                slotsShop[i].GetComponent<SlotShop>().GetInfo(commonItems[i], ShopController.instance.GetCostItem(commonItems[i].KeyItem));
+                slotsShop[i].SetActive(true);
+                //GameItem item = commonItems[i];
+                int index = Random.Range(0, commonItems.Count);
+                slotsShop[i].GetComponent<SlotShop>().GetInfo(commonItems[index], ShopController.instance.GetCostItem(commonItems[index].KeyItem));
                 
             }
         }

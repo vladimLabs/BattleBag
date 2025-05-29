@@ -48,7 +48,7 @@ namespace DragItem
                     item.DisablePhysics();
 
                 }
-                else if (currentSlot.CanUpgradeItem())
+                else if (currentSlot.CanUpgradeItem() && IsCanMergeItems(currentSlot.GetIndex(), GetComponent<Item>().GameItem().Level))
                 {
                     ItemController.instance.UpgradeItem(currentSlot.GetIndex());
                     //item.UpgradeLevel();   //увеличиваем уровень у предмета в слоте
@@ -67,6 +67,11 @@ namespace DragItem
                 Debug.Log("Нет слота для размещения предмета.");
                 item.EnablePhysics(); //Включаем физику, если нет слота
             }
+        }
+
+        private bool IsCanMergeItems(int index, float level)
+        {
+            return GameBag._gameSlotsItem[index].Level == level && level < 3;
         }
 
         private void OnTriggerStay2D(Collider2D other)

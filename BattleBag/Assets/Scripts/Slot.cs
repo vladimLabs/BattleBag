@@ -71,7 +71,7 @@ namespace DragItem
                 item.transform.position = transform.position; // Перемещаем предмет в позицию слота
                 SetOccupied(true); //Устанавливаем слот как занятый
                 ChangeColor(freeSlot);
-                ItemController.instance.SlotOccupied(item.gameItem, item, index);
+                ItemController.instance.SlotOccupied(item.GameItem(), item, index);
                 //Debug.Log("Предмет помещен в слот: " + gameObject.name);
             }
             else

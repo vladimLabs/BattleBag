@@ -31,7 +31,7 @@ namespace Items
         public void SummonItem(string nameItem)
         {
             GameObject item = Instantiate(prefabItem, pointSpawn.position, Quaternion.identity, canvas);
-            item.GetComponent<Item>().GetInfoItem(nameItem, 1);
+            item.GetComponent<Item>().GetInfoItem(nameItem);
         }
 
         public void SlotOccupied(GameItem gameItem, Item item, int index)

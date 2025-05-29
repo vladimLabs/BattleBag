@@ -1,41 +1,73 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 using Items;
+using Fight;
 
 public class FightItem : MonoBehaviour
 {
     [SerializeField] private Image fillImage;
     [SerializeField] private Image imageItem;
-    private float _speed;
+    [SerializeField] private TextMeshProUGUI levelItem;
+    private GameItem _gameItem;
     private float _fadeTime;
+    private float duration;
+    private string _nameHero;
 
-    private void Start()
-    {
-        //GetInfo("SwordDestruction", 15, 1.2f);
-    }
-
-    //public void GetInfo(string keyName, float speed, float attack)
-    public void GetInfo(GameItem gameItem)
+    public void GetInfo(GameItem gameItem, string nameHero)
     {
         if (gameItem != null)
         {
-            imageItem.sprite = Resources.Load<Sprite>(gameItem.KeyItem);
-            GetComponent<Image>().sprite = Resources.Load<Sprite>(gameItem.KeyItem);
-            _speed = gameItem.speed;
-            StartCoroutine(Attack());
+            _nameHero = nameHero;
+            _gameItem = gameItem;
+            imageItem.sprite = Resources.Load<Sprite>(_gameItem.KeyItem + _gameItem.Level.ToString());
+            GetComponent<Image>().sprite = Resources.Load<Sprite>(_gameItem.KeyItem);
+            levelItem.text = _gameItem.Level.ToString();
+
+            _fadeTime = _gameItem.Speed;
+            // Умножаем на 1/ fillSpeed, чтобы увеличить скорость при увеличении значения
+            duration = 1f / _fadeTime;
+            StartCoroutine(Attack(duration));
+        }
+        else
+        {
+            levelItem.text = "";
         }
     }
 
-    private IEnumerator Attack()
+    public float GetPowerItem()
     {
-        _fadeTime = 0.1f;
-        fillImage.fillAmount = 0;
-        for (float i = 0; i < _speed; i += _fadeTime)
+        return _gameItem.Power;
+    }
+
+    private IEnumerator Attack(float duration)
+    {
+        float elapsedTime = 0f;
+        float targetValue = 1f;
+
+        while (fillImage.fillAmount < targetValue)
         {
-            yield return new WaitForSeconds(_fadeTime);
-            //Debug.Log("2");
-            fillImage.fillAmount += _fadeTime;
+            fillImage.fillAmount += Mathf.Lerp(elapsedTime, targetValue, (elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForSeconds(0.1f);
         }
+
+        fillImage.fillAmount = 0;
+        FightController.instance.FightProcess(_nameHero, _gameItem.Attack);
+        StartCoroutine(Attack(duration));
+    }
+
+    public float GetHealthBonus()
+    {
+        return _gameItem.Health;
+    }
+    public float GetAttackBonus()
+    {
+        return _gameItem.Attack;
+    }
+    public bool GetNotNullGameItem()
+    {
+        return _gameItem != null;
     }
 }

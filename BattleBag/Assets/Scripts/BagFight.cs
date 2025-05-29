@@ -15,7 +15,9 @@ namespace DragItem
         public void SetSlotOccupied(int index, GameItem gameItem, Item item)
         {
             gameSlotsItem[index] = gameItem;
+
             GameBag.GetGameItem(gameSlotsItem);
+
             items[index] = item;
             //ShowItems();
         }
@@ -25,7 +27,6 @@ namespace DragItem
         {
             gameSlotsItem[index] = null;
             GameBag.GetGameItem(gameSlotsItem);
-            //ShowItems();
         }
 
         public string GetItemName(int index)
@@ -37,18 +38,8 @@ namespace DragItem
         {
             items[index].UpgradeLevel();   //увеличиваем уровень у предмета в слоте
             slots[index].UpgradeItem();
-            //currentSlot.UpgradeItem();
+            GameBag.GetGameItem(gameSlotsItem);
         }
 
-        private void ShowItems()
-        {
-            foreach (GameItem item in gameSlotsItem)
-            {
-                if (item != null)
-                {
-                    Debug.Log(item.KeyItem + " " + item.itemName);
-                }
-            }
-        }
     }
 }

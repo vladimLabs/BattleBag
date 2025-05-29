@@ -9,5 +9,9 @@ namespace Scenes
         {
             SceneManager.LoadScene("Fight");
         }
+        public void LloadSceneShop()
+        {
+            SceneManager.LoadScene("BagShop");
+        }
     }
 }

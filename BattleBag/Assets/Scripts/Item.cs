@@ -8,24 +8,29 @@ namespace DragItem
     public class Item : MonoBehaviour
     {
         public string KeyName;
-        public int Level { get; set; }
-        public GameItem gameItem { get; set; }
+        private GameItem gameItem;
 
         [SerializeField] private TextMeshProUGUI levelItem;
 
-        public void GetInfoItem(string kName, int level)
+        public void GetInfoItem(string kName)
         {
-            Level = level;
+            //Level = level;
             KeyName = kName;
             gameItem = ItemController.instance.GetGameItem(KeyName);
-            GetComponent<Image>().sprite = Resources.Load<Sprite>(KeyName);
-            levelItem.text = Level.ToString();
+            GetComponent<Image>().sprite = Resources.Load<Sprite>(KeyName+gameItem.Level.ToString());
+            levelItem.text = gameItem.Level.ToString();
+        }
+
+        public GameItem GameItem()
+        {
+            return gameItem;
         }
 
         public void UpgradeLevel()
         {
-            Level++;
-            levelItem.text = Level.ToString();
+            gameItem.Level++;
+            levelItem.text = gameItem.Level.ToString();
+            GetComponent<Image>().sprite = Resources.Load<Sprite>(KeyName + gameItem.Level.ToString());
         }
 
         public void DisablePhysics()

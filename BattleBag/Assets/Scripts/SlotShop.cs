@@ -21,7 +21,7 @@ namespace Shop
         {
             _gameItem = gameItem;
             _cost = cost;
-            img.sprite = Resources.Load<Sprite>(_gameItem.KeyItem);
+            img.sprite = Resources.Load<Sprite>(_gameItem.KeyItem+gameItem.Level.ToString());
             costItem.text = _cost.ToString();
         }
 
@@ -29,9 +29,9 @@ namespace Shop
         {
             if (ShopController.instance.CheckCanBuy(_cost))
             {
-                ShopController.instance.BuyForCoin(_cost);
+                ShopController.instance.BuyForCoin(_cost, true);
                 ItemController.instance.SummonItem(_gameItem.KeyItem);
-                //gameObject.SetActive(false);
+                gameObject.SetActive(false);
             }
         }
     }

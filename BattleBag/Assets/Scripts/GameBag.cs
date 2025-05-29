@@ -8,4 +8,5 @@ public static class GameBag
     {
         _gameSlotsItem = gameSlotsItem;
     }
+
 }
