@@ -9,8 +9,10 @@ namespace Shop
     {
         [SerializeField] private GameObject[] slotsShop;
 
+        //Выбор какие предметы будут доступны в магазине
         public void ChoiceLowestRarityItems(int count)
         {
+            //Получаем список всех доступных предметов
             List<GameItem> allItems = ItemController.instance.GetListGameItem();
 
             //Получаем предметы по редкости Common
@@ -18,11 +20,9 @@ namespace Shop
 
             for (int i = 0; i < count; i++)
             {
-                slotsShop[i].SetActive(true);
-                //GameItem item = commonItems[i];
+                slotsShop[i].SetActive(true); //больше для кнопки добавить в процессе, когда можно добавить еще предметы платно
                 int index = Random.Range(0, commonItems.Count);
                 slotsShop[i].GetComponent<SlotShop>().GetInfo(commonItems[index], ShopController.instance.GetCostItem(commonItems[index].KeyItem));
-                
             }
         }
     }

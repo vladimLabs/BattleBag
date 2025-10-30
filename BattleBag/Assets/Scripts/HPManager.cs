@@ -11,7 +11,7 @@ namespace Fight
         [SerializeField] private TextMeshProUGUI power;
         [SerializeField] private TextMeshProUGUI health;
         private Hero _hero;
-        private float baseHP = 50;
+        private float baseHP = 5;
         private float baseAttack = 8;
 
         private float nowHp;

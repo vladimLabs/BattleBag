@@ -20,7 +20,7 @@ namespace Fight {
         private void Start()
         {
             panelEndFight.SetActive(false);
-            //Загружаем предметы рюкзака персоонажа
+            //Загружаем предметы рюкзака персонажа
             //и генерируем врага
             _bagInFight.LoadHeroBag();
             _bagInFight.CalcPowerHero();
@@ -35,10 +35,10 @@ namespace Fight {
             switch (nameHero)
             {
                 case "enemy":
-                    _enemyHPManager.GetDamage(hit);
+                    _heroHPManager.GetDamage(hit);
                     break;
                 case "person":
-                    _heroHPManager.GetDamage(hit);
+                    _enemyHPManager.GetDamage(hit);
                     break;
             }
         }

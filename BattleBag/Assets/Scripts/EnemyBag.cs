@@ -17,7 +17,6 @@ public class EnemyBag : MonoBehaviour
         //Индексы слотов, куда поместим предметы врага
         List<int> ints = new List<int>();
         ints = GenerateItems(ints, countCommon + countUncommon + countRare);
-        //Debug.Log(ints.Count);
 
         //Выбираем какие будут предметы определенной редкости (по количеству видов редкости)
         List<GameItem> commonItems = AddItemsLevel(countCommon, GetLevelsItem(countCommon, CommonIndex), Rarity.Common);

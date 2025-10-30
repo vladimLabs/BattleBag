@@ -38,8 +38,19 @@ public class FightItem : MonoBehaviour
 
     public float GetPowerItem()
     {
+        //StartCoroutine(Farm());
         return _gameItem.Power;
     }
+    /// //////////////////////
+    private IEnumerator Farm()
+    {
+        for (; ; )
+        {
+            Debug.Log("Фармим");
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
 
     private IEnumerator Attack(float duration)
     {
@@ -48,6 +59,7 @@ public class FightItem : MonoBehaviour
 
         while (fillImage.fillAmount < targetValue)
         {
+            //постепенное заполнение полоски прогресса до атаки
             fillImage.fillAmount += Mathf.Lerp(elapsedTime, targetValue, (elapsedTime / duration));
             elapsedTime += Time.deltaTime;
             yield return new WaitForSeconds(0.1f);
@@ -55,6 +67,7 @@ public class FightItem : MonoBehaviour
 
         fillImage.fillAmount = 0;
         FightController.instance.FightProcess(_nameHero, _gameItem.Attack);
+        //запускаем корутину заново
         StartCoroutine(Attack(duration));
     }
 

@@ -18,10 +18,6 @@ namespace Shop
             {
                 instance = this;
             }
-            else
-            {
-                Destroy(gameObject);
-            }
             nowItem = countItem;
             buttonAddItems.SetActive(false);
         }

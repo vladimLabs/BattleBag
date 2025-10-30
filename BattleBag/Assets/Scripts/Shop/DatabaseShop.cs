@@ -8,6 +8,7 @@ namespace Shop
     {
         private Dictionary<string, float> itemPrices;
 
+        //словарь со стоимостью предметов для покупки 
         public void Initialize()
         {
             itemPrices = new Dictionary<string, float>

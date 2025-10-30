@@ -9,15 +9,30 @@ namespace DragItem
     {
         public string KeyName;
         private GameItem gameItem;
+        Rigidbody2D rb;
+
 
         [SerializeField] private TextMeshProUGUI levelItem;
 
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
         public void GetInfoItem(string kName)
         {
-            //Level = level;
             KeyName = kName;
             gameItem = ItemController.instance.GetGameItem(KeyName);
             GetComponent<Image>().sprite = Resources.Load<Sprite>(KeyName+gameItem.Level.ToString());
+            levelItem.text = gameItem.Level.ToString();
+        }
+
+        public void LoadInfoItem(string kName, float level)
+        {
+            KeyName = kName;
+            gameItem.Level = level;
+
+            GetComponent<Image>().sprite = Resources.Load<Sprite>(KeyName + gameItem.Level.ToString());
             levelItem.text = gameItem.Level.ToString();
         }
 
@@ -35,7 +50,6 @@ namespace DragItem
 
         public void DisablePhysics()
         {
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
             if (rb != null)
             {
                 rb.isKinematic = true; // Устанавливаем в кинематический режим
@@ -44,7 +58,6 @@ namespace DragItem
 
         public void EnablePhysics()
         {
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
             if (rb != null)
             {
                 rb.isKinematic = false; // Устанавливаем в режим, реагирующий на физику

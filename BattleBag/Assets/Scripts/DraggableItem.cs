@@ -10,6 +10,8 @@ namespace DragItem
         private Item item;
         private Slot currentSlot;
 
+        //private bool drag = false;
+
         private void Start()
         {
             rectTransform = GetComponent<RectTransform>();
@@ -18,11 +20,12 @@ namespace DragItem
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            //drag = true;
             if (currentSlot != null)
             {
                 currentSlot.GetComponent<Slot>().DelItem();
             }
-            //Отключаем физику
+            //Отключаем физику, чтобы он не падал, когда несем
             if (item != null)
             {
                 item.DisablePhysics();
@@ -42,19 +45,15 @@ namespace DragItem
             //Проверяем, можно ли положить предмет в слот
             if (currentSlot != null)
             {
-                if (currentSlot.CanPlaceItem())
+                if (currentSlot.CanPlaceItem()) //вызываем у слота, над которым держим предмет, метод, который говорит свободен ли слот
                 {
                     currentSlot.PlaceItem(item); // Помещаем предмет в слот
                     item.DisablePhysics();
-
                 }
                 else if (currentSlot.CanUpgradeItem() && IsCanMergeItems(currentSlot.GetIndex(), GetComponent<Item>().GameItem().Level))
                 {
                     ItemController.instance.UpgradeItem(currentSlot.GetIndex());
-                    //item.UpgradeLevel();   //увеличиваем уровень у предмета в слоте
-                    //currentSlot.UpgradeItem();
-                    //item.DisablePhysics();
-                    Destroy(gameObject);
+                    Destroy(gameObject);    
                 }
                 else
                 {
@@ -67,8 +66,10 @@ namespace DragItem
                 Debug.Log("Нет слота для размещения предмета.");
                 item.EnablePhysics(); //Включаем физику, если нет слота
             }
+            //drag = false;
         }
 
+        //Проверка можно ли поднять уровень объекта
         private bool IsCanMergeItems(int index, float level)
         {
             return GameBag._gameSlotsItem[index].Level == level && level < 3;
@@ -79,7 +80,6 @@ namespace DragItem
             if (other.CompareTag("Slot")) //Если предмет над слотом
             {
                 currentSlot = other.GetComponent<Slot>(); //Получаем ссылку на слот
-                //Debug.Log("Предмет вошел в область слота: " + currentSlot.gameObject.name);
             }
         }
 
@@ -87,7 +87,6 @@ namespace DragItem
         {
             if (other.CompareTag("Slot") && currentSlot != null) //Если предмет покинул слот
             {
-                //Debug.Log("Предмет покинул область слота: " + currentSlot.gameObject.name);
                 currentSlot = null; //Сбрасываем ссылку на слот
             }
         }

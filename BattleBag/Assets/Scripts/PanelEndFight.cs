@@ -13,32 +13,37 @@ namespace Fight
 
         private int _countFight = 5;
 
-        public void ShowInfo(string lose)
+        public void ShowInfo(string loser)
         {
-            int w = PlayerPrefs.GetInt("win");
-            int l = PlayerPrefs.GetInt("lose");
-            switch (lose)
+            int win = PlayerPrefs.GetInt("win");
+            int lose = PlayerPrefs.GetInt("lose");
+            switch (loser)
             {
                 case "enemy":
                     winer.text = "Вы";
-                    w++;
-                    PlayerPrefs.SetInt("win", w);
+                    win++;
+                    PlayerPrefs.SetInt("win", win);
                     break;
                 case "person":
                     winer.text = "Враг";
-                    l++;
-                    PlayerPrefs.SetInt("lose", l);
+                    lose++;
+                    PlayerPrefs.SetInt("lose", lose);
                     break;
             }
 
-            countWin.text = w.ToString();
-            countLose.text = l.ToString();
-            countFight.text = (_countFight - w - l).ToString();
+            countWin.text = win.ToString();
+            countLose.text = lose.ToString();
+            countFight.text = (_countFight - win - lose).ToString();
 
-            PlayerPrefs.SetFloat("coin", PlayerPrefs.GetFloat("coin") + 100);
-            PlayerPrefs.SetFloat("win", 0);
-            PlayerPrefs.SetFloat("lose", 0);
-
+            if(_countFight <= 0 || lose >= 3)
+            {
+                EndGame();
+            }
+        }
+        private void EndGame()
+        {
+            PlayerPrefs.SetInt("win", 0);
+            PlayerPrefs.SetInt("lose", 0);
         }
     }
 }

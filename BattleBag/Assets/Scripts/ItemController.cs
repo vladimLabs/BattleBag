@@ -18,11 +18,6 @@ namespace Items
             if (instance == null)
             {
                 instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
             }
 
             bagFight = FindObjectOfType<BagFight>();
@@ -46,12 +41,18 @@ namespace Items
 
         public string GetItemName(int index)
         {
+            //Debug.Log(bagFight.GetItemName(index));
             return bagFight.GetItemName(index);
         }
 
         public void UpgradeItem(int index)
         {
             bagFight.UpgradeItem(index);
+        }
+
+        public void LoadHeroBag()
+        {
+            bagFight.LoadHeroBag();
         }
     }   
 }
